@@ -28,6 +28,11 @@ from ldm_patched.modules.lora import model_lora_keys_unet, model_lora_keys_clip
 from modules.config import path_embeddings
 from ldm_patched.contrib.external_model_advanced import ModelSamplingDiscrete
 
+if os.environ.get('USE_IPEX') is not None and os.environ.get('USE_IPEX') == "1":
+    from modules.ipex import hijacks, diffusers, attention
+    attention.attention_init()
+    hijacks.ipex_hijacks()
+    diffusers.ipex_diffusers()
 
 opEmptyLatentImage = EmptyLatentImage()
 opVAEDecode = VAEDecode()
