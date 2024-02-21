@@ -126,9 +126,7 @@ def ipex_hijacks():
         lambda orig_func, *args, device=None, **kwargs: orig_func(*args, device=return_xpu(device), **kwargs),
         lambda orig_func, *args, device=None, **kwargs: check_device(device))
 
-    CondFunc('torch.Generator',
-        lambda orig_func, device=None: torch.xpu.Generator(device),
-        lambda orig_func, device=None: device is not None and device != torch.device("cpu") and device != "cpu")
+    
 
     #TiledVAE and ControlNet:
     CondFunc('torch.batch_norm',
